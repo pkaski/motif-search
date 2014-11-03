@@ -57,6 +57,7 @@ lister: lister.c builds.h gf.h ffprng.h
 	$(CC) $(CFLAGS) -DLISTER_DEFAULT -o lister lister.c
 
 experiment-bin/Makefile: mkmk.pl
+	mkdir experiment-bin
 	perl mkmk.pl >experiment-bin/Makefile
 
 expbin: experiment-bin/Makefile
