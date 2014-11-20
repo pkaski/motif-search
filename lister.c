@@ -2407,15 +2407,16 @@ int main(int argc, char **argv)
     graph_t *g;
     index_t k;
     index_t *kk;
-    index_t cmd;
+    index_t input_cmd;
     index_t *cmd_args;
     if(flag_bin_input) {
-        reader_bin(stdin, &g, &k, &kk, &cmd, &cmd_args);
+        reader_bin(stdin, &g, &k, &kk, &input_cmd, &cmd_args);
     } else {
-        reader_ascii(stdin, &g, &k, &kk, &cmd, &cmd_args);
+        reader_ascii(stdin, &g, &k, &kk, &input_cmd, &cmd_args);
     }
+    index_t cmd = input_cmd;  // by default execute command in input stream
     if(arg_cmd != CMD_NOP)
-        cmd = arg_cmd;    // override command in input stream
+        cmd = arg_cmd;        // override command in input stream
 
     motifq_t *root = root_build(g, k, kk);
     graph_free(g);
@@ -2490,11 +2491,11 @@ int main(int argc, char **argv)
     }
     double time = pop_time();
     fprintf(stdout, "command done [%.2lf ms]\n", time);
-    if(cmd != CMD_NOP)
+    if(input_cmd != CMD_NOP)
         FREE(cmd_args);
 
     time = pop_time();
-    fprintf(stdout, "grand total [%.2lf ms] ",time);
+    fprintf(stdout, "grand total [%.2lf ms] ", time);
     print_pop_memtrack();
     fprintf(stdout, "\n");
     fprintf(stdout, "host: %s\n", sysdep_hostname());
